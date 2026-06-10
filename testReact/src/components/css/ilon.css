@@ -1,0 +1,21 @@
+.ilonCls{
+    margin-top: 20px;
+    color: aquamarine;
+    background-color: grey;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    :hover{
+        background-color: pink;
+    }
+    & button{
+    color: #fff;
+    background-color:blue;
+    &:hover{
+        color: aquamarine;
+        background-color: rebeccapurple;
+    }
+   }
+}
+ 
