@@ -3,28 +3,48 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { ui } from '../styles'
 
+type Tab = 'login' | 'register'
+
 export default function LoginPage() {
-  const { login, isAuthenticated, profile } = useAuth()
+  const { login, register, isAuthenticated, profile } = useAuth()
   const navigate = useNavigate()
+
+  const [tab,      setTab]      = useState<Tab>('login')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError]       = useState('')
+  const [confirm,  setConfirm]  = useState('')
+  const [error,    setError]    = useState('')
 
   useEffect(() => {
     if (isAuthenticated && profile)  navigate('/dashboard')
     if (isAuthenticated && !profile) navigate('/setup')
   }, [isAuthenticated, profile, navigate])
 
+  function clearForm() {
+    setUsername('')
+    setPassword('')
+    setConfirm('')
+    setError('')
+  }
+
+  function handleTab(t: Tab) {
+    setTab(t)
+    clearForm()
+  }
+
   function handleLogin() {
-    if (!username || !password) {
-      setError('Kullanıcı adı ve şifre boş olamaz')
-      return
-    }
+    if (!username || !password) { setError('Alanlar boş olamaz'); return }
     const success = login(username, password)
-    if (!success) {
-      setError('Kullanıcı adı veya şifre hatalı')
-      return
-    }
+    if (!success) { setError('Kullanıcı adı veya şifre hatalı'); return }
+    navigate('/setup')
+  }
+
+  function handleRegister() {
+    if (!username || !password) { setError('Alanlar boş olamaz'); return }
+    if (password !== confirm)   { setError('Şifreler eşleşmiyor'); return }
+    if (password.length < 4)    { setError('Şifre en az 4 karakter olmalı'); return }
+    const success = register(username, password)
+    if (!success) { setError('Bu kullanıcı adı zaten alınmış'); return }
     navigate('/setup')
   }
 
@@ -36,7 +56,21 @@ export default function LoginPage() {
           <h1 className={ui.logoText}>
             Macro<span className="text-blue-500">Track</span>
           </h1>
-          <p className={ui.mutedCenter}>Devam etmek için giriş yap</p>
+        </div>
+
+        <div className={ui.grid2}>
+          <button
+            onClick={() => handleTab('login')}
+            className={tab === 'login' ? ui.btnOutlineActive : ui.btnOutline}
+          >
+            Giriş yap
+          </button>
+          <button
+            onClick={() => handleTab('register')}
+            className={tab === 'register' ? ui.btnOutlineActive : ui.btnOutline}
+          >
+            Kayıt ol
+          </button>
         </div>
 
         <div className={ui.formGroup}>
@@ -57,20 +91,39 @@ export default function LoginPage() {
             placeholder="••••"
             value={password}
             onChange={e => { setPassword(e.target.value); setError('') }}
-            onKeyDown={e => e.key === 'Enter' && handleLogin()}
+            onKeyDown={e => e.key === 'Enter' && (tab === 'login' ? handleLogin() : handleRegister())}
             className={ui.input}
           />
         </div>
 
+        {tab === 'register' && (
+          <div className={ui.formGroup}>
+            <label className={ui.label}>Şifre tekrar</label>
+            <input
+              type="password"
+              placeholder="••••"
+              value={confirm}
+              onChange={e => { setConfirm(e.target.value); setError('') }}
+              onKeyDown={e => e.key === 'Enter' && handleRegister()}
+              className={ui.input}
+            />
+          </div>
+        )}
+
         {error && <p className={ui.error}>{error}</p>}
 
-        <button onClick={handleLogin} className={ui.btnFull}>
-          Giriş yap
+        <button
+          onClick={tab === 'login' ? handleLogin : handleRegister}
+          className={ui.btnFull}
+        >
+          {tab === 'login' ? 'Giriş yap' : 'Kayıt ol'}
         </button>
 
-        <p className={ui.mutedCenter}>
-          Test hesabı: <span className="text-black">onur / 1234</span>
-        </p>
+        {tab === 'login' && (
+          <p className={ui.mutedCenter}>
+            Test hesabı: <span className="text-black">onur / 1234</span>
+          </p>
+        )}
 
       </div>
     </div>

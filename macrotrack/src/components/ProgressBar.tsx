@@ -1,22 +1,31 @@
 import { useMeal } from '../context/useMeal'
-import { DAILY_GOAL } from '../constants/nutrition'
+import { useAuth } from '../context/useAuth'
+import { calculateTDEE } from '../utils/calculateTDEE'
+import { ui } from '../styles'
 
 export default function ProgressBar() {
   const { totalCalories } = useMeal()
-  const percentage = Math.min(Math.round((totalCalories / DAILY_GOAL) * 100), 100)
+  const { profile, settings } = useAuth()
 
+  const goal = profile
+    ? (settings.dailyGoalOverride ?? calculateTDEE(profile))
+    : 2000
+
+  const percentage = Math.min(Math.round((totalCalories / goal) * 100), 100)
   const barColor =
     percentage >= 100 ? 'bg-red-500' :
     percentage >= 80  ? 'bg-amber-400' :
-    'bg-green-400'
+    'bg-blue-500'
 
   return (
-    <div className="bg-white border border-gray-100 rounded-xl p-4">
+    <div className={ui.card}>
       <div className="flex justify-between items-baseline mb-3">
-        <span className="text-sm text-gray-500">Günlük hedef</span>
+        <span className={ui.muted}>
+          {settings.dailyGoalOverride ? 'Günlük hedef (manuel)' : 'Günlük hedef (TDEE)'}
+        </span>
         <div>
-          <span className="text-xl font-medium text-gray-800">{totalCalories}</span>
-          <span className="text-sm text-gray-400"> / {DAILY_GOAL} kcal</span>
+          <span className="text-xl font-medium text-black">{totalCalories}</span>
+          <span className={ui.muted}> / {goal} kcal</span>
         </div>
       </div>
       <div className="h-3 bg-gray-100 rounded-full overflow-hidden mb-2">
@@ -26,8 +35,8 @@ export default function ProgressBar() {
         />
       </div>
       <div className="flex justify-between">
-        <span className="text-xs text-gray-400">%{percentage} tamamlandı</span>
-        <span className="text-xs text-gray-400">{Math.max(DAILY_GOAL - totalCalories, 0)} kcal kaldı</span>
+        <span className={ui.muted}>%{percentage} tamamlandı</span>
+        <span className={ui.muted}>{Math.max(goal - totalCalories, 0)} kcal kaldı</span>
       </div>
     </div>
   )
