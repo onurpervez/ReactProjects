@@ -1,26 +1,31 @@
-import { ui } from './styles'
-import Sidebar      from './components/Sidebar'
-import Navbar       from './components/Navbar'
-import ProgressBar  from './components/ProgressBar'
-import MacroSummary from './components/MacroSummary'
-import FoodSearch   from './components/FoodSearch'
-import MealLog      from './components/MealLog'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
+import { MealProvider } from './context/MealContext'
+import ProtectedRoute from './routes/ProtectedRoute'
+import LoginPage from './pages/LoginPage'
+import SetupPage from './pages/SetupPage'
+import DashboardPage from './pages/DashboardPage'
 
 export default function App() {
   return (
-    <div className={ui.pageWrapper}>
-      <Sidebar />
-      <div className={ui.mainWrapper}>
-        <Navbar />
-        <main className={ui.content}>
-          <ProgressBar />
-          <MacroSummary />
-          <div className="grid grid-cols-2 gap-4">
-            <FoodSearch />
-            <MealLog />
-          </div>
-        </main>
-      </div>
-    </div>
+    <BrowserRouter>
+      <AuthProvider>
+        <MealProvider>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/setup" element={<SetupPage />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
+        </MealProvider>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }

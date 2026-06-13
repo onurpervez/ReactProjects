@@ -16,3 +16,17 @@ export interface MealEntry {
   totalProtein: number;
   totalFat: number;
 }
+
+export interface User {
+  username: string;
+  password: string;
+}
+
+export interface UserProfile {
+  username: string;
+  height: number;
+  weight: number;
+  age: number;
+  gender: 'male' | 'female';
+  activity: 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active';
+}
