@@ -1,0 +1,12 @@
+[
+  { "id": 1, "name": "Pirinç (pişmiş)", "calories": 130, "carbs": 28.2, "protein": 2.7, "fat": 0.3 },
+  { "id": 2, "name": "Tavuk göğsü", "calories": 165, "carbs": 0, "protein": 31.0, "fat": 3.6 },
+  { "id": 3, "name": "Patates (haşlanmış)", "calories": 87, "carbs": 20.1, "protein": 1.9, "fat": 0.1 },
+  { "id": 4, "name": "Yumurta", "calories": 155, "carbs": 1.1, "protein": 13.0, "fat": 11.0 },
+  { "id": 5, "name": "Yulaf", "calories": 389, "carbs": 66.3, "protein": 16.9, "fat": 6.9 },
+  { "id": 6, "name": "Kırmızı et (dana)", "calories": 250, "carbs": 0, "protein": 26.0, "fat": 15.0 },
+  { "id": 7, "name": "Makarna (pişmiş)", "calories": 158, "carbs": 31.0, "protein": 5.8, "fat": 0.9 },
+  { "id": 8, "name": "Ekmek (tam buğday)", "calories": 247, "carbs": 41.0, "protein": 13.0, "fat": 4.2 },
+  { "id": 9, "name": "Süt (%3.5)", "calories": 61, "carbs": 4.8, "protein": 3.2, "fat": 3.5 },
+  { "id": 10, "name": "Lor peyniri", "calories": 98, "carbs": 3.4, "protein": 11.0, "fat": 4.3 }
+]
