@@ -13,9 +13,8 @@ const activityOptions: { value: UserProfile['activity']; label: string }[] = [
 ]
 
 export default function SetupPage() {
-  const { saveProfile, isAuthenticated } = useAuth()
+  const { saveProfile, isAuthenticated, profile, loading } = useAuth()
   const navigate = useNavigate()
-  const storedUser = localStorage.getItem('macrotrack_user') ?? ''
 
   const [height,   setHeight]   = useState('')
   const [weight,   setWeight]   = useState('')
@@ -25,27 +24,26 @@ export default function SetupPage() {
   const [error,    setError]    = useState('')
 
   useEffect(() => {
-    if (!isAuthenticated) navigate('/login')
-  }, [isAuthenticated, navigate])
+    if (loading) return
+    if (!isAuthenticated)          navigate('/login')
+    if (isAuthenticated && profile) navigate('/dashboard')
+  }, [isAuthenticated, profile, navigate, loading])
 
-  function handleSave() {
+  async function handleSave() {
     const h = parseFloat(height)
     const w = parseFloat(weight)
     const a = parseInt(age)
-
     if (!h || !w || !a || h < 100 || h > 250 || w < 30 || w > 300 || a < 10 || a > 100) {
       setError('Lütfen geçerli değerler gir')
       return
     }
-
-    saveProfile({ username: storedUser, height: h, weight: w, age: a, gender, activity })
+    await saveProfile({ username: '', height: h, weight: w, age: a, gender, activity })
     navigate('/dashboard')
   }
 
   return (
     <div className={ui.pageCentered}>
       <div className={ui.cardMd}>
-
         <div className="text-center mb-2">
           <h1 className={ui.logoText}>Profilini oluştur</h1>
           <p className={ui.mutedCenter}>Kalori hedefini hesaplayalım</p>
@@ -54,46 +52,28 @@ export default function SetupPage() {
         <div className={ui.grid2}>
           <div className={ui.formGroup}>
             <label className={ui.label}>Boy (cm)</label>
-            <input
-              type="number"
-              placeholder="175"
-              value={height}
-              onChange={e => { setHeight(e.target.value); setError('') }}
-              className={ui.input}
-            />
+            <input type="number" placeholder="175" value={height}
+              onChange={e => { setHeight(e.target.value); setError('') }} className={ui.input} />
           </div>
           <div className={ui.formGroup}>
             <label className={ui.label}>Kilo (kg)</label>
-            <input
-              type="number"
-              placeholder="75"
-              value={weight}
-              onChange={e => { setWeight(e.target.value); setError('') }}
-              className={ui.input}
-            />
+            <input type="number" placeholder="75" value={weight}
+              onChange={e => { setWeight(e.target.value); setError('') }} className={ui.input} />
           </div>
         </div>
 
         <div className={ui.formGroup}>
           <label className={ui.label}>Yaş</label>
-          <input
-            type="number"
-            placeholder="25"
-            value={age}
-            onChange={e => { setAge(e.target.value); setError('') }}
-            className={ui.input}
-          />
+          <input type="number" placeholder="25" value={age}
+            onChange={e => { setAge(e.target.value); setError('') }} className={ui.input} />
         </div>
 
         <div className={ui.formGroup}>
           <label className={ui.label}>Cinsiyet</label>
           <div className={ui.grid2}>
             {(['male', 'female'] as const).map(g => (
-              <button
-                key={g}
-                onClick={() => setGender(g)}
-                className={gender === g ? ui.btnOutlineActive : ui.btnOutline}
-              >
+              <button key={g} onClick={() => setGender(g)}
+                className={gender === g ? ui.btnOutlineActive : ui.btnOutline}>
                 {g === 'male' ? 'Erkek' : 'Kadın'}
               </button>
             ))}
@@ -102,11 +82,9 @@ export default function SetupPage() {
 
         <div className={ui.formGroup}>
           <label className={ui.label}>Aktivite seviyesi</label>
-          <select
-            value={activity}
+          <select value={activity}
             onChange={e => setActivity(e.target.value as UserProfile['activity'])}
-            className={ui.input}
-          >
+            className={ui.input}>
             {activityOptions.map(o => (
               <option key={o.value} value={o.value}>{o.label}</option>
             ))}
@@ -115,10 +93,7 @@ export default function SetupPage() {
 
         {error && <p className={ui.error}>{error}</p>}
 
-        <button onClick={handleSave} className={ui.btnFull}>
-          Kaydet ve başla
-        </button>
-
+        <button onClick={handleSave} className={ui.btnFull}>Kaydet ve başla</button>
       </div>
     </div>
   )

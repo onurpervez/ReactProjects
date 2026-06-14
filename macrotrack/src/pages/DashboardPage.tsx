@@ -1,6 +1,7 @@
 import { ui } from '../styles'
 import Sidebar        from '../components/Sidebar'
 import Navbar         from '../components/Navbar'
+import MobileNav      from '../components/MobileNav'
 import ProgressBar    from '../components/ProgressBar'
 import MacroSummary   from '../components/MacroSummary'
 import FoodSearch     from '../components/FoodSearch'
@@ -17,15 +18,16 @@ export default function DashboardPage() {
         <main className={ui.content}>
           <ProgressBar />
           <MacroSummary />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <ProjectionCard />
             <StatsCard />
           </div>
-          <div className="grid grid-cols-2 gap-4 flex-1 min-h-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FoodSearch />
             <MealLog />
           </div>
         </main>
+        <MobileNav />
       </div>
     </div>
   )

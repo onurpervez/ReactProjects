@@ -7,7 +7,9 @@ interface Props {
 }
 
 export default function ProtectedRoute({ children }: Props) {
-  const { isAuthenticated, profile } = useAuth()
+  const { isAuthenticated, profile, loading } = useAuth()
+
+  if (loading) return null
 
   if (!isAuthenticated) return <Navigate to="/login" replace />
   if (!profile) return <Navigate to="/setup" replace />

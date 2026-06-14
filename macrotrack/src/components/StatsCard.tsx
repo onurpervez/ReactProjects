@@ -6,13 +6,8 @@ export default function StatsCard() {
 
   if (entries.length === 0) return null
 
-  const topCalorie = entries.reduce((a, b) =>
-    a.totalCalories > b.totalCalories ? a : b
-  )
-
-  const topProtein = entries.reduce((a, b) =>
-    a.totalProtein > b.totalProtein ? a : b
-  )
+  const topCalorie = entries.reduce((a, b) => a.totalCalories > b.totalCalories ? a : b)
+  const topProtein = entries.reduce((a, b) => a.totalProtein > b.totalProtein ? a : b)
 
   const mealCounts = entries.reduce((acc, e) => {
     acc[e.mealType] = (acc[e.mealType] ?? 0) + 1
@@ -20,26 +15,10 @@ export default function StatsCard() {
   }, {} as Record<string, number>)
 
   const stats = [
-    {
-      label: 'Toplam öğün',
-      value: entries.length,
-      unit: 'kalem',
-    },
-    {
-      label: 'En çok kalori',
-      value: topCalorie.food.name,
-      unit: `${topCalorie.totalCalories} kcal`,
-    },
-    {
-      label: 'En çok protein',
-      value: topProtein.food.name,
-      unit: `${topProtein.totalProtein}g protein`,
-    },
-    {
-      label: 'Toplam kalori',
-      value: totalCalories,
-      unit: 'kcal',
-    },
+    { label: 'Toplam öğün',    value: String(entries.length), unit: 'kalem' },
+    { label: 'En çok kalori',  value: topCalorie.food.name,   unit: `${topCalorie.totalCalories} kcal` },
+    { label: 'En çok protein', value: topProtein.food.name,   unit: `${topProtein.totalProtein}g protein` },
+    { label: 'Toplam kalori',  value: String(totalCalories),  unit: 'kcal' },
   ]
 
   const mealTypeLabels = Object.entries(mealCounts)
@@ -47,21 +26,19 @@ export default function StatsCard() {
     .join(' · ')
 
   return (
-    <div className={`${ui.card} flex flex-col gap-3 h-full`}>
+    <div className={`${ui.card} flex flex-col gap-3`}>
       <h2 className={ui.cardTitle}>Bugünün özeti</h2>
-
       <div className={ui.grid2}>
         {stats.map(s => (
           <div key={s.label} className={ui.pill}>
             <p className={ui.muted}>{s.label}</p>
-            <p className="text-sm font-medium text-black mt-1 truncate">{s.value}</p>
+            <p className="text-sm font-medium text-black dark:text-white mt-1 truncate">{s.value}</p>
             <p className={ui.muted}>{s.unit}</p>
           </div>
         ))}
       </div>
-
       {mealTypeLabels && (
-        <p className={`${ui.muted} pt-2 border-t border-gray-100`}>
+        <p className={`${ui.muted} pt-2 border-t border-gray-100 dark:border-zinc-800`}>
           Öğünler: {mealTypeLabels}
         </p>
       )}
