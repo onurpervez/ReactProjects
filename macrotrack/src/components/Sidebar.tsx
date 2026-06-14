@@ -4,8 +4,8 @@ import { ui } from '../styles'
 
 export default function Sidebar() {
   const { profile } = useAuth()
-  const navigate = useNavigate()
-  const location = useLocation()
+  const navigate  = useNavigate()
+  const location  = useLocation()
 
   const links = [
     { label: 'Dashboard', path: '/dashboard' },
@@ -18,7 +18,6 @@ export default function Sidebar() {
       <div className={ui.sidebarLogo}>
         Macro<span className="text-blue-500">Track</span>
       </div>
-
       {links.map(l => (
         <button
           key={l.path}
@@ -28,7 +27,6 @@ export default function Sidebar() {
           {l.label}
         </button>
       ))}
-
       {profile && (
         <div className={ui.profileBox}>
           <span className={ui.profileName}>{profile.username}</span>

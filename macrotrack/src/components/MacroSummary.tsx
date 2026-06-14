@@ -20,9 +20,9 @@ export default function MacroSummary() {
   }
 
   const macros = [
-    { label: 'Karbonhidrat', current: totalCarbs,   target: targets.carbs },
-    { label: 'Protein',      current: totalProtein, target: targets.protein },
-    { label: 'Yağ',          current: totalFat,     target: targets.fat },
+    { label: 'Karb',    current: totalCarbs,   target: targets.carbs },
+    { label: 'Protein', current: totalProtein, target: targets.protein },
+    { label: 'Yağ',     current: totalFat,     target: targets.fat },
   ]
 
   return (
@@ -33,17 +33,16 @@ export default function MacroSummary() {
           pct >= 100 ? 'bg-red-400' :
           pct >= 80  ? 'bg-amber-400' :
           'bg-blue-400'
-
         return (
           <div key={m.label} className={ui.pill}>
             <div className="flex justify-between items-baseline mb-2">
               <p className={ui.muted}>{m.label}</p>
-              <p className="text-xs text-gray-400">{m.target}g hedef</p>
+              <p className="text-xs text-gray-400 dark:text-zinc-500">{m.target}g</p>
             </div>
-            <p className="text-lg font-medium text-black mb-2">
-              {m.current}<span className="text-xs text-gray-400 font-normal">g</span>
+            <p className="text-lg font-medium text-black dark:text-white mb-2">
+              {m.current}<span className="text-xs text-gray-400 dark:text-zinc-500 font-normal">g</span>
             </p>
-            <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            <div className="h-1.5 bg-gray-100 dark:bg-zinc-700 rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-300 ${barColor}`} style={{ width: `${pct}%` }} />
             </div>
             <p className={`${ui.muted} mt-1`}>%{pct}</p>

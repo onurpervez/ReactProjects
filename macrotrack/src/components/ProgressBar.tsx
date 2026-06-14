@@ -24,11 +24,11 @@ export default function ProgressBar() {
           {settings.dailyGoalOverride ? 'Günlük hedef (manuel)' : 'Günlük hedef (TDEE)'}
         </span>
         <div>
-          <span className="text-xl font-medium text-black">{totalCalories}</span>
+          <span className="text-xl font-medium text-black dark:text-white">{totalCalories}</span>
           <span className={ui.muted}> / {goal} kcal</span>
         </div>
       </div>
-      <div className="h-3 bg-gray-100 rounded-full overflow-hidden mb-2">
+      <div className="h-3 bg-gray-100 dark:bg-zinc-700 rounded-full overflow-hidden mb-2">
         <div
           className={`h-full rounded-full transition-all duration-300 ${barColor}`}
           style={{ width: `${percentage}%` }}
