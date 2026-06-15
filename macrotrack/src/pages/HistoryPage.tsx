@@ -22,11 +22,20 @@ export default function HistoryPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getHistory(7).then(data => {
-      setHistory(data)
-      setLoading(false)
-    })
-  }, [])
+  // useEffect'in kendi callback'i async olamaz, bu yüzden 
+  // içeride asenkron bir fonksiyon tanımlayıp onu çağırıyoruz.
+  const loadHistoryData = async () => {
+    const username = localStorage.getItem('macrotrack_user') ?? '';
+    
+    // Fonksiyonun veriyi getirmesini bekliyoruz
+    const data = await getHistory(username, 7); 
+    
+    setHistory(data);
+    setLoading(false);
+  };
+
+  loadHistoryData();
+}, []);
 
   if (!profile) return null
 

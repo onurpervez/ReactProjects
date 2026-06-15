@@ -10,7 +10,6 @@ export default function LoginPage() {
   const navigate = useNavigate()
 
   const [tab,      setTab]      = useState<Tab>('login')
-  const [email,    setEmail]    = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirm,  setConfirm]  = useState('')
@@ -23,27 +22,27 @@ export default function LoginPage() {
   }, [isAuthenticated, profile, navigate])
 
   function clearForm() {
-    setEmail(''); setUsername(''); setPassword(''); setConfirm(''); setError('')
+    setUsername(''); setPassword(''); setConfirm(''); setError('')
   }
 
   function handleTab(t: Tab) { setTab(t); clearForm() }
 
-  async function handleLogin() {
-    if (!email || !password) { setError('Alanlar boş olamaz'); return }
+  function handleLogin() {
+    if (!username || !password) { setError('Alanlar boş olamaz'); return }
     setLoading(true)
-    const err = await login(email, password)
+    const success = login(username, password)
     setLoading(false)
-    if (err) setError('Email veya şifre hatalı')
+    if (!success) setError('Kullanıcı adı veya şifre hatalı')
   }
 
-  async function handleRegister() {
-    if (!email || !username || !password) { setError('Alanlar boş olamaz'); return }
-    if (password !== confirm) { setError('Şifreler eşleşmiyor'); return }
-    if (password.length < 6)  { setError('Şifre en az 6 karakter olmalı'); return }
+  function handleRegister() {
+    if (!username || !password)   { setError('Alanlar boş olamaz'); return }
+    if (password !== confirm)     { setError('Şifreler eşleşmiyor'); return }
+    if (password.length < 4)      { setError('Şifre en az 4 karakter olmalı'); return }
     setLoading(true)
-    const err = await register(email, password, username)
+    const success = register(username, password)
     setLoading(false)
-    if (err) { setError('Kayıt başarısız: ' + err); return }
+    if (!success) { setError('Bu kullanıcı adı zaten alınmış'); return }
     navigate('/setup')
   }
 
@@ -55,27 +54,26 @@ export default function LoginPage() {
         </div>
 
         <div className={ui.grid2}>
-          <button onClick={() => handleTab('login')}    className={tab === 'login'    ? ui.btnOutlineActive : ui.btnOutline}>Giriş yap</button>
-          <button onClick={() => handleTab('register')} className={tab === 'register' ? ui.btnOutlineActive : ui.btnOutline}>Kayıt ol</button>
+          <button onClick={() => handleTab('login')}
+            className={tab === 'login' ? ui.btnOutlineActive : ui.btnOutline}>
+            Giriş yap
+          </button>
+          <button onClick={() => handleTab('register')}
+            className={tab === 'register' ? ui.btnOutlineActive : ui.btnOutline}>
+            Kayıt ol
+          </button>
         </div>
 
-        {tab === 'register' && (
-          <div className={ui.formGroup}>
-            <label className={ui.label}>Kullanıcı adı</label>
-            <input type="text" placeholder="onur" value={username}
-              onChange={e => { setUsername(e.target.value); setError('') }} className={ui.input} />
-          </div>
-        )}
-
         <div className={ui.formGroup}>
-          <label className={ui.label}>Email</label>
-          <input type="email" placeholder="onur@gmail.com" value={email}
-            onChange={e => { setEmail(e.target.value); setError('') }} className={ui.input} />
+          <label className={ui.label}>Kullanıcı adı</label>
+          <input type="text" placeholder="onur" value={username}
+            onChange={e => { setUsername(e.target.value); setError('') }}
+            className={ui.input} />
         </div>
 
         <div className={ui.formGroup}>
           <label className={ui.label}>Şifre</label>
-          <input type="password" placeholder="••••••" value={password}
+          <input type="password" placeholder="••••" value={password}
             onChange={e => { setPassword(e.target.value); setError('') }}
             onKeyDown={e => e.key === 'Enter' && (tab === 'login' ? handleLogin() : handleRegister())}
             className={ui.input} />
@@ -84,7 +82,7 @@ export default function LoginPage() {
         {tab === 'register' && (
           <div className={ui.formGroup}>
             <label className={ui.label}>Şifre tekrar</label>
-            <input type="password" placeholder="••••••" value={confirm}
+            <input type="password" placeholder="••••" value={confirm}
               onChange={e => { setConfirm(e.target.value); setError('') }}
               onKeyDown={e => e.key === 'Enter' && handleRegister()}
               className={ui.input} />
@@ -100,6 +98,12 @@ export default function LoginPage() {
         >
           {loading ? 'Bekle...' : tab === 'login' ? 'Giriş yap' : 'Kayıt ol'}
         </button>
+
+        {tab === 'login' && (
+          <p className={ui.mutedCenter}>
+            Hesabın yoksa kayıt ol
+          </p>
+        )}
       </div>
     </div>
   )

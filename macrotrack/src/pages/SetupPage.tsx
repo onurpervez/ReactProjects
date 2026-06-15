@@ -13,8 +13,9 @@ const activityOptions: { value: UserProfile['activity']; label: string }[] = [
 ]
 
 export default function SetupPage() {
-  const { saveProfile, isAuthenticated, profile, loading } = useAuth()
+  const { saveProfile, isAuthenticated, profile } = useAuth()
   const navigate = useNavigate()
+  const username = localStorage.getItem('macrotrack_user') ?? ''
 
   const [height,   setHeight]   = useState('')
   const [weight,   setWeight]   = useState('')
@@ -24,22 +25,28 @@ export default function SetupPage() {
   const [error,    setError]    = useState('')
 
   useEffect(() => {
-    if (loading) return
-    if (!isAuthenticated)          navigate('/login')
-    if (isAuthenticated && profile) navigate('/dashboard')
-  }, [isAuthenticated, profile, navigate, loading])
-
-  async function handleSave() {
-    const h = parseFloat(height)
-    const w = parseFloat(weight)
-    const a = parseInt(age)
-    if (!h || !w || !a || h < 100 || h > 250 || w < 30 || w > 300 || a < 10 || a > 100) {
-      setError('Lütfen geçerli değerler gir')
-      return
-    }
-    await saveProfile({ username: '', height: h, weight: w, age: a, gender, activity })
+  if (!isAuthenticated) {
+    navigate('/login')
+    return
+  }
+  const stored = localStorage.getItem('macrotrack_profile')
+  if (stored) {
     navigate('/dashboard')
   }
+}, [isAuthenticated, navigate])
+
+ function handleSave() {
+  const h = parseFloat(height)
+  const w = parseFloat(weight)
+  const a = parseInt(age)
+  if (!h || !w || !a || h < 100 || h > 250 || w < 30 || w > 300 || a < 10 || a > 100) {
+    setError('Lütfen geçerli değerler gir')
+    return
+  }
+  const p: UserProfile = { username, height: h, weight: w, age: a, gender, activity }
+  saveProfile(p)
+  navigate('/dashboard')
+}
 
   return (
     <div className={ui.pageCentered}>
@@ -92,7 +99,6 @@ export default function SetupPage() {
         </div>
 
         {error && <p className={ui.error}>{error}</p>}
-
         <button onClick={handleSave} className={ui.btnFull}>Kaydet ve başla</button>
       </div>
     </div>

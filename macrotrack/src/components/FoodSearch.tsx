@@ -4,7 +4,19 @@ import { useMeal } from '../context/useMeal'
 import { ui } from '../styles'
 import mockFoods from '../data/mockFoods.json'
 import FoodDetailModal from './FoodDetailModal'
-import { supabase } from '../lib/supabase'
+
+const CUSTOM_FOODS_KEY = 'macrotrack_custom_foods'
+
+function loadCustomFoods(): Food[] {
+  try {
+    const stored = localStorage.getItem(CUSTOM_FOODS_KEY)
+    return stored ? JSON.parse(stored) : []
+  } catch { return [] }
+}
+
+function saveCustomFoods(foods: Food[]) {
+  localStorage.setItem(CUSTOM_FOODS_KEY, JSON.stringify(foods))
+}
 
 const GRAM_PRESETS = [50, 100, 150, 200]
 const CATEGORIES = ['tümü', 'et', 'tahıl', 'sebze', 'meyve', 'süt ürünleri', 'baklagil', 'kuruyemiş', 'yağ', 'takviye', 'özel'] as const
@@ -19,7 +31,7 @@ export default function FoodSearch() {
   const [category,      setCategory]      = useState<Category>('tümü')
   const [detail,        setDetail]        = useState<Food | null>(null)
   const [showManual,    setShowManual]    = useState(false)
-  const [customFoods,   setCustomFoods]   = useState<Food[]>([])
+  const [customFoods,   setCustomFoods]   = useState<Food[]>(loadCustomFoods)
   const [manualName,    setManualName]    = useState('')
   const [manualCal,     setManualCal]     = useState('')
   const [manualCarbs,   setManualCarbs]   = useState('')
@@ -27,46 +39,6 @@ export default function FoodSearch() {
   const [manualFat,     setManualFat]     = useState('')
   const [manualGrams,   setManualGrams]   = useState('')
   const [manualError,   setManualError]   = useState('')
-
-  useEffect(() => { 
-    const loadCustomFoods = async () => {
-      const { data } = await supabase
-        .from('custom_foods')
-        .select('*')
-        .order('created_at', { ascending: false })
-      
-      if (data) {
-        setCustomFoods(data.map(row => ({
-          id: row.id,
-          name: row.name,
-          calories: row.calories,
-          carbs: row.carbs,
-          protein: row.protein,
-          fat: row.fat,
-          category: 'özel' as Food['category'],
-        })))
-      }
-    }
-    loadCustomFoods() 
-  }, [])
-
-  async function loadCustomFoods() {
-    const { data } = await supabase
-      .from('custom_foods')
-      .select('*')
-      .order('created_at', { ascending: false })
-    if (data) {
-      setCustomFoods(data.map(row => ({
-        id: row.id,
-        name: row.name,
-        calories: row.calories,
-        carbs: row.carbs,
-        protein: row.protein,
-        fat: row.fat,
-        category: 'özel' as Food['category'],
-      })))
-    }
-  }
 
   const allFoods = [...(mockFoods as Food[]), ...customFoods]
 
@@ -82,9 +54,7 @@ export default function FoodSearch() {
   }
 
   function handleClear() {
-    setQuery('')
-    setSelected(null)
-    setGrams('')
+    setQuery(''); setSelected(null); setGrams('')
   }
 
   function handleAdd() {
@@ -94,7 +64,7 @@ export default function FoodSearch() {
     handleClear()
   }
 
-  async function handleManualAdd() {
+  function handleManualAdd() {
     const name    = manualName.trim()
     const cal     = parseFloat(manualCal)
     const carbs   = parseFloat(manualCarbs)
@@ -109,28 +79,21 @@ export default function FoodSearch() {
     if (isNaN(fat)     || fat     < 0)  { setManualError('Geçerli yağ gir'); return }
     if (isNaN(g)       || g       <= 0) { setManualError('Geçerli gram gir'); return }
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
-
-    const { data, error } = await supabase.from('custom_foods').insert({
-      user_id: user.id,
-      name, calories: cal, carbs, protein, fat, category: 'özel',
-    }).select().single()
-
-    if (error) { setManualError('Kaydedilemedi'); return }
-
     const manualFood: Food = {
-      id: data.id,
-      name: data.name,
-      calories: data.calories,
-      carbs: data.carbs,
-      protein: data.protein,
-      fat: data.fat,
-      category: 'özel' as Food['category'],
+      id: Date.now(),
+      name,
+      calories: cal,
+      carbs,
+      protein,
+      fat,
+      category: 'özel',
     }
 
-    setCustomFoods(prev => [manualFood, ...prev])
+    const updated = [manualFood, ...customFoods]
+    setCustomFoods(updated)
+    saveCustomFoods(updated)
     addEntry(manualFood, g)
+
     setManualName(''); setManualCal(''); setManualCarbs('')
     setManualProtein(''); setManualFat(''); setManualGrams('')
     setManualError('')
