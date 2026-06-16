@@ -3,7 +3,7 @@ export const ui = {
   pageWrapper:    'flex flex-col md:flex-row h-screen bg-gray-100 dark:bg-zinc-950',
   pageCentered:   'flex min-h-screen bg-gray-100 dark:bg-zinc-950 items-center justify-center p-4',
   mainWrapper:    'flex flex-col flex-1 overflow-hidden',
-  content:        'flex-1 overflow-y-auto p-3 md:p-5 flex flex-col gap-4',
+  content:        'flex-1 overflow-y-auto p-3 md:p-5 pb-6 flex flex-col gap-4',
 
   // sidebar
   sidebar:        'hidden md:flex w-44 bg-white dark:bg-zinc-900 border-r border-gray-200 dark:border-zinc-800 flex-col p-3 gap-1 flex-shrink-0',

@@ -16,10 +16,7 @@ export default function LoginPage() {
   const [error,    setError]    = useState('')
   const [loading,  setLoading]  = useState(false)
 
-  useEffect(() => {
-    if (isAuthenticated && profile)  navigate('/dashboard')
-    if (isAuthenticated && !profile) navigate('/setup')
-  }, [isAuthenticated, profile, navigate])
+ 
 
   function clearForm() {
     setUsername(''); setPassword(''); setConfirm(''); setError('')
@@ -27,13 +24,22 @@ export default function LoginPage() {
 
   function handleTab(t: Tab) { setTab(t); clearForm() }
 
-  function handleLogin() {
-    if (!username || !password) { setError('Alanlar boş olamaz'); return }
-    setLoading(true)
-    const success = login(username, password)
-    setLoading(false)
-    if (!success) setError('Kullanıcı adı veya şifre hatalı')
+ function handleLogin() {
+  if (!username || !password) { setError('Alanlar boş olamaz'); return }
+  setLoading(true)
+  const success = login(username, password)
+  setLoading(false)
+  if (!success) {
+    setError('Kullanıcı adı veya şifre hatalı')
+    return
   }
+  const stored = localStorage.getItem('macrotrack_profile')
+  if (stored) {
+    window.location.href = '/dashboard'
+  } else {
+    window.location.href = '/setup'
+  }
+}
 
   function handleRegister() {
     if (!username || !password)   { setError('Alanlar boş olamaz'); return }

@@ -23,8 +23,12 @@ export default function DashboardPage() {
             <StatsCard />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FoodSearch />
-            <MealLog />
+            <div className="h-auto max-h-[600px] overflow-y-auto">
+              <FoodSearch />
+            </div>
+            <div className="h-auto max-h-[600px] overflow-y-auto">
+              <MealLog />
+            </div>
           </div>
         </main>
         <MobileNav />

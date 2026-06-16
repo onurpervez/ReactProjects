@@ -102,7 +102,7 @@ export default function FoodSearch() {
 
   return (
     <>
-      <div className={`${ui.card} flex flex-col gap-3`}>
+      <div className={`${ui.card} flex flex-col gap-3 `}>
         <div className="flex justify-between items-center">
           <h2 className={ui.cardTitle}>Besin ekle</h2>
           <button
@@ -208,7 +208,7 @@ export default function FoodSearch() {
             </div>
 
             {!selected && (
-              <div className="flex flex-col gap-1 max-h-48 overflow-y-auto">
+              <div className="flex flex-col gap-1">
                 {filtered.length === 0 ? (
                   <p className={`${ui.muted} text-center py-4`}>Besin bulunamadı</p>
                 ) : (

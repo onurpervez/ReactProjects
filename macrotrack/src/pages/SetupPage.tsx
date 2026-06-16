@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import type { UserProfile } from '../types'
 import { ui } from '../styles'
+import { useState } from 'react'
 
 const activityOptions: { value: UserProfile['activity']; label: string }[] = [
   { value: 'sedentary',   label: 'Hareketsiz (masa başı)' },
@@ -13,7 +14,7 @@ const activityOptions: { value: UserProfile['activity']; label: string }[] = [
 ]
 
 export default function SetupPage() {
-  const { saveProfile, isAuthenticated, profile } = useAuth()
+  const { saveProfile, isAuthenticated } = useAuth()
   const navigate = useNavigate()
   const username = localStorage.getItem('macrotrack_user') ?? ''
 
@@ -25,28 +26,30 @@ export default function SetupPage() {
   const [error,    setError]    = useState('')
 
   useEffect(() => {
-  if (!isAuthenticated) {
-    navigate('/login')
-    return
-  }
-  const stored = localStorage.getItem('macrotrack_profile')
-  if (stored) {
+    if (!isAuthenticated) {
+      navigate('/login')
+      return
+    }
+    const stored = localStorage.getItem('macrotrack_profile')
+    if (stored) {
+      navigate('/dashboard')
+    }
+  }, [isAuthenticated, navigate])
+
+  function handleSave() {
+    const h = parseFloat(height)
+    const w = parseFloat(weight)
+    const a = parseInt(age)
+    if (!h || !w || !a || h < 100 || h > 250 || w < 30 || w > 300 || a < 10 || a > 100) {
+      setError('Lütfen geçerli değerler gir')
+      return
+    }
+    saveProfile({ username, height: h, weight: w, age: a, gender, activity })
     navigate('/dashboard')
   }
-}, [isAuthenticated, navigate])
 
- function handleSave() {
-  const h = parseFloat(height)
-  const w = parseFloat(weight)
-  const a = parseInt(age)
-  if (!h || !w || !a || h < 100 || h > 250 || w < 30 || w > 300 || a < 10 || a > 100) {
-    setError('Lütfen geçerli değerler gir')
-    return
-  }
-  const p: UserProfile = { username, height: h, weight: w, age: a, gender, activity }
-  saveProfile(p)
-  navigate('/dashboard')
-}
+  const stored = localStorage.getItem('macrotrack_profile')
+  if (!isAuthenticated || stored) return null
 
   return (
     <div className={ui.pageCentered}>

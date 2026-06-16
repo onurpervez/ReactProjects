@@ -1,18 +1,16 @@
 import { Navigate } from 'react-router-dom'
 import type { ReactNode } from 'react'
-import { useAuth } from '../context/useAuth'
 
 interface Props {
   children: ReactNode
 }
 
 export default function ProtectedRoute({ children }: Props) {
-  const { isAuthenticated, profile, loading } = useAuth()
+  const isAuth    = localStorage.getItem('macrotrack_auth') === 'true'
+  const hasProfile = localStorage.getItem('macrotrack_profile') !== null
 
-  if (loading) return null
-
-  if (!isAuthenticated) return <Navigate to="/login" replace />
-  if (!profile) return <Navigate to="/setup" replace />
+  if (!isAuth) return <Navigate to="/login" replace />
+  if (!hasProfile) return <Navigate to="/setup" replace />
 
   return <>{children}</>
 }

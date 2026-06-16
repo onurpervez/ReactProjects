@@ -14,7 +14,7 @@ export default function MealLog() {
   })).filter(g => g.items.length > 0)
 
   return (
-    <div className={`${ui.card} flex flex-col gap-4`}>
+    <div className={`${ui.card} flex flex-col gap-4 `}>
       <h2 className={ui.cardTitle}>Bugün yenenler</h2>
       {grouped.length === 0 ? (
         <p className={`${ui.muted} text-center py-8`}>Henüz öğün eklenmedi</p>
