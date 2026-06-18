@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import type { Food, MealType } from '../types'
 import { useMeal } from '../context/useMeal'
 import { ui } from '../styles'
@@ -146,7 +146,7 @@ export default function FoodSearch() {
               </div>
             </div>
 
-            <div className={ui.grid3}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className={ui.formGroup}>
                 <label className={ui.label}>Karb (g)</label>
                 <input type="number" placeholder="30" value={manualCarbs}

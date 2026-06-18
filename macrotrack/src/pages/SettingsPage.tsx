@@ -122,7 +122,7 @@ export default function SettingsPage() {
               {total < 100 && <span className="text-gray-400 dark:text-zinc-500"> ({100 - total} kaldı)</span>}
             </p>
 
-            <div className={ui.grid3}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {[
                 { label: 'Karbonhidrat', value: carbs,   setter: (v: string) => clampMacro('carbs',   v) },
                 { label: 'Protein',      value: protein, setter: (v: string) => clampMacro('protein', v) },

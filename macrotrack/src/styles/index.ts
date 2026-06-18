@@ -18,7 +18,7 @@ export const ui = {
 
   // navbar
   navbar:         'h-14 bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 px-4 md:px-6 flex items-center justify-between flex-shrink-0',
-  navbarDate:     'text-sm font-medium text-gray-800 dark:text-zinc-200 hidden sm:block',
+  navbarDate:     'text-sm font-medium text-gray-800 dark:text-zinc-200 truncate',
   navbarUser:     'flex items-center gap-2',
   avatar:         'w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-medium flex items-center justify-center cursor-pointer flex-shrink-0',
 
@@ -41,7 +41,7 @@ export const ui = {
 
   // grid
   grid2:          'grid grid-cols-2 gap-3',
-  grid3:          'grid grid-cols-3 gap-3',
+  grid3:          'grid grid-cols-3 gap-2 sm:gap-3',
 
   // form group
   formGroup:      'flex flex-col gap-1',
