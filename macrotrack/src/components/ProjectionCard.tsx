@@ -26,30 +26,30 @@ export default function ProjectionCard() {
 
   const accentColor = isNeutral ? 'text-blue-500' : isGain ? 'text-amber-500' : 'text-green-500'
 
+  const leftBorder  = isNeutral
+    ? 'border-l-[3px] border-l-blue-400'
+    : isGain
+    ? 'border-l-[3px] border-l-amber-400'
+    : 'border-l-[3px] border-l-green-400'
+
+  const stats = [
+    { label: 'Günlük fark',    value: `${dailyDiff > 0 ? '+' : ''}${dailyDiff} kcal` },
+    { label: 'Haftalık fark',  value: `${weeklyDiff > 0 ? '+' : ''}${weeklyDiff} kcal` },
+    { label: 'Tahmini değişim', value: isNeutral ? '±0g' : isGain ? `+${weeklyGram}g` : `-${weeklyGram}g` },
+  ]
+
   return (
-    <div className={`${ui.card} flex flex-col gap-2`}>
+    <div className={`${ui.card} flex flex-col gap-3 ${leftBorder}`}>
       <h2 className={ui.cardTitle}>Haftalık projeksiyon</h2>
       <div className="flex justify-around items-center flex-wrap gap-2">
-        <div className={ui.formGroup}>
-          <span className={ui.muted}>Günlük fark</span>
-          <span className={`text-lg font-medium ${accentColor}`}>
-            {dailyDiff > 0 ? '+' : ''}{dailyDiff} kcal
-          </span>
-        </div>
-        <div className={ui.formGroup}>
-          <span className={ui.muted}>Haftalık fark</span>
-          <span className={`text-lg font-medium ${accentColor}`}>
-            {weeklyDiff > 0 ? '+' : ''}{weeklyDiff} kcal
-          </span>
-        </div>
-        <div className={ui.formGroup}>
-          <span className={ui.muted}>Tahmini değişim</span>
-          <span className={`text-lg font-medium ${accentColor}`}>
-            {isNeutral ? '±0g' : isGain ? `+${weeklyGram}g` : `-${weeklyGram}g`}
-          </span>
-        </div>
+        {stats.map(s => (
+          <div key={s.label} className={ui.formGroup}>
+            <span className={ui.muted}>{s.label}</span>
+            <span className={`text-lg font-bold ${accentColor}`}>{s.value}</span>
+          </div>
+        ))}
       </div>
-      <p className={`${ui.muted} pt-1 border-t border-stone-200 dark:border-zinc-800`}>{message}</p>
+      <p className={`${ui.muted} pt-2 border-t border-stone-200 dark:border-zinc-800`}>{message}</p>
     </div>
   )
 }

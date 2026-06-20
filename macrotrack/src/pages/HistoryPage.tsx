@@ -89,7 +89,7 @@ export default function HistoryPage() {
                       strokeDasharray="4 4"
                       label={{ value: `Hedef ${tdee}`, fontSize: 11, fill: '#3b82f6', position: 'insideTopRight' }}
                     />
-                    <Bar dataKey="Kalori" fill="#94a3b8" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="Kalori" fill="#3b82f6" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -112,14 +112,17 @@ export default function HistoryPage() {
 
               <div className={ui.grid3}>
                 {[
-                  { label: 'Ort. kalori',  value: avgKcal, unit: 'kcal' },
-                  { label: 'Ort. protein', value: avgProt, unit: 'g' },
-                  { label: 'Ort. karb',    value: avgCarb, unit: 'g' },
+                  { label: 'Ort. kalori',  value: avgKcal, unit: 'kcal', valueClass: 'text-blue-600 dark:text-blue-400',   dot: 'bg-blue-500' },
+                  { label: 'Ort. protein', value: avgProt, unit: 'g',    valueClass: 'text-amber-600 dark:text-amber-400', dot: 'bg-amber-400' },
+                  { label: 'Ort. karb',    value: avgCarb, unit: 'g',    valueClass: 'text-orange-500 dark:text-orange-400', dot: 'bg-orange-400' },
                 ].map(s => (
                   <div key={s.label} className={ui.pill}>
-                    <p className={ui.muted}>{s.label}</p>
-                    <p className="text-base font-medium text-black dark:text-white mt-1">
-                      {s.value} <span className="text-xs text-gray-400 dark:text-zinc-500 font-normal">{s.unit}</span>
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className={`w-2 h-2 rounded-full flex-shrink-0 ${s.dot}`} />
+                      <p className={ui.muted}>{s.label}</p>
+                    </div>
+                    <p className={`text-base font-bold mt-0.5 ${s.valueClass}`}>
+                      {s.value} <span className="text-xs font-normal text-gray-400 dark:text-zinc-500">{s.unit}</span>
                     </p>
                   </div>
                 ))}

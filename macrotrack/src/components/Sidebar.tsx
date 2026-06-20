@@ -2,6 +2,14 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/useAuth'
 import { ui } from '../styles'
 
+function BoltIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="text-blue-500 flex-shrink-0">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+    </svg>
+  )
+}
+
 function IconGrid() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -49,7 +57,11 @@ export default function Sidebar() {
   return (
     <aside className={ui.sidebar}>
       <div className={ui.sidebarLogo}>
-        Macro<span className="text-blue-500">Track</span>
+        <div className="flex items-center gap-1.5">
+          <BoltIcon />
+          <span>Macro</span>
+          <span className="bg-gradient-to-r from-blue-500 to-blue-400 bg-clip-text text-transparent">Track</span>
+        </div>
       </div>
       {links.map(l => (
         <button

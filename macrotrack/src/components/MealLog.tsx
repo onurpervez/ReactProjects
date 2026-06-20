@@ -4,17 +4,24 @@ import { ui } from '../styles'
 
 const MEAL_TYPES: MealType[] = ['kahvaltı', 'öğle', 'akşam', 'ara öğün']
 
+const MEAL_COLORS: Record<MealType, string> = {
+  'kahvaltı': 'bg-amber-400',
+  'öğle':     'bg-blue-500',
+  'akşam':    'bg-indigo-400',
+  'ara öğün': 'bg-emerald-400',
+}
+
 export default function MealLog() {
   const { entries, removeEntry } = useMeal()
 
   const grouped = MEAL_TYPES.map(type => ({
     type,
-    items: entries.filter(e => e.mealType === type),
-    totalKcal: entries.filter(e => e.mealType === type).reduce((s, e) => s + e.totalCalories, 0),
+    items:      entries.filter(e => e.mealType === type),
+    totalKcal:  entries.filter(e => e.mealType === type).reduce((s, e) => s + e.totalCalories, 0),
   })).filter(g => g.items.length > 0)
 
   return (
-    <div className={`${ui.card} flex flex-col gap-4 `}>
+    <div className={`${ui.card} flex flex-col gap-4`}>
       <h2 className={ui.cardTitle}>Bugün yenenler</h2>
       {grouped.length === 0 ? (
         <p className={`${ui.muted} text-center py-8`}>Henüz öğün eklenmedi</p>
@@ -22,7 +29,10 @@ export default function MealLog() {
         grouped.map(group => (
           <div key={group.type} className={ui.mealGroup}>
             <div className={ui.mealGroupTitle}>
-              <span className={ui.mealGroupName}>{group.type}</span>
+              <div className="flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full flex-shrink-0 ${MEAL_COLORS[group.type]}`} />
+                <span className={ui.mealGroupName}>{group.type}</span>
+              </div>
               <span className={ui.mealGroupKcal}>{group.totalKcal} kcal</span>
             </div>
             {group.items.map(entry => (

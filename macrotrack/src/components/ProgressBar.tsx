@@ -15,8 +15,8 @@ export default function ProgressBar() {
     : 2000
 
   const percentage = Math.min(Math.round((totalCalories / goal) * 100), 100)
-  const offset = CIRCUMFERENCE * (1 - percentage / 100)
-  const remaining = Math.max(goal - totalCalories, 0)
+  const offset     = CIRCUMFERENCE * (1 - percentage / 100)
+  const remaining  = Math.max(goal - totalCalories, 0)
 
   const ringClass =
     percentage >= 100 ? 'stroke-red-500' :
@@ -31,28 +31,23 @@ export default function ProgressBar() {
   const textClass =
     percentage >= 100 ? 'text-red-500' :
     percentage >= 80  ? 'text-amber-500' :
-    'text-blue-500'
+    'text-blue-600 dark:text-blue-400'
 
   return (
-    <div className={ui.card}>
+    <div className={`${ui.card} bg-gradient-to-br from-blue-50/60 to-stone-50 dark:from-zinc-900 dark:to-zinc-900`}>
       <div className="flex items-center gap-5">
 
         {/* Circular ring */}
         <div className="relative flex-shrink-0">
-          <svg
-            className="w-[88px] h-[88px] -rotate-90"
-            viewBox="0 0 100 100"
-          >
+          <svg className="w-[88px] h-[88px] -rotate-90" viewBox="0 0 100 100">
             <circle
               cx="50" cy="50" r={R}
-              fill="none"
-              strokeWidth="9"
+              fill="none" strokeWidth="9"
               className="stroke-stone-200 dark:stroke-zinc-700"
             />
             <circle
               cx="50" cy="50" r={R}
-              fill="none"
-              strokeWidth="9"
+              fill="none" strokeWidth="9"
               strokeLinecap="round"
               strokeDasharray={CIRCUMFERENCE}
               strokeDashoffset={offset}
@@ -60,7 +55,7 @@ export default function ProgressBar() {
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className={`text-base font-bold ${textClass} leading-none`}>
+            <span className={`text-base font-bold leading-none ${textClass}`}>
               %{percentage}
             </span>
           </div>
@@ -73,7 +68,7 @@ export default function ProgressBar() {
               {settings.dailyGoalOverride ? 'Hedef (manuel)' : 'Hedef (TDEE)'}
             </span>
             <div className="text-right">
-              <span className="text-2xl font-bold text-black dark:text-white leading-none">
+              <span className="text-2xl font-bold text-gray-900 dark:text-white leading-none">
                 {totalCalories}
               </span>
               <span className={ui.muted}> / {goal} kcal</span>

@@ -141,7 +141,7 @@ export default function SettingsPage() {
               ))}
             </div>
 
-            <div className="h-3 bg-gray-100 dark:bg-zinc-700 rounded-full overflow-hidden flex">
+            <div className="h-3 bg-stone-200 dark:bg-zinc-700 rounded-full overflow-hidden flex">
               <div className="bg-blue-400 h-full transition-all"  style={{ width: `${carbs}%` }} />
               <div className="bg-amber-400 h-full transition-all" style={{ width: `${protein}%` }} />
               <div className="bg-rose-400 h-full transition-all"  style={{ width: `${fat}%` }} />
