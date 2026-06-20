@@ -1,4 +1,5 @@
 import { useMeal } from '../context/useMeal'
+import { useToast } from '../context/useToast'
 import type { MealType } from '../types'
 import { ui } from '../styles'
 
@@ -13,6 +14,7 @@ const MEAL_COLORS: Record<MealType, string> = {
 
 export default function MealLog() {
   const { entries, removeEntry } = useMeal()
+  const { showToast } = useToast()
 
   const grouped = MEAL_TYPES.map(type => ({
     type,
@@ -46,7 +48,7 @@ export default function MealLog() {
                 <div className="flex items-center gap-3 flex-shrink-0">
                   <span className={ui.accent}>{entry.totalCalories} kcal</span>
                   <button
-                    onClick={() => removeEntry(entry.id)}
+                    onClick={() => { removeEntry(entry.id); showToast('Öğün silindi', 'info') }}
                     className="text-gray-300 dark:text-zinc-600 hover:text-red-400 transition-colors text-lg leading-none"
                   >
                     ×

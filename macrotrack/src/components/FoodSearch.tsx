@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Food, MealType } from '../types'
 import { useMeal } from '../context/useMeal'
+import { useToast } from '../context/useToast'
 import { ui } from '../styles'
 import mockFoods from '../data/mockFoods.json'
 import FoodDetailModal from './FoodDetailModal'
@@ -25,6 +26,7 @@ type Category = typeof CATEGORIES[number]
 
 export default function FoodSearch() {
   const { addEntry, activeMealType, setActiveMealType } = useMeal()
+  const { showToast } = useToast()
   const [query,         setQuery]         = useState('')
   const [selected,      setSelected]      = useState<Food | null>(null)
   const [grams,         setGrams]         = useState('')
@@ -61,6 +63,7 @@ export default function FoodSearch() {
     const g = parseFloat(grams)
     if (!selected || isNaN(g) || g <= 0) return
     addEntry(selected, g)
+    showToast(`${selected.name} eklendi`)
     handleClear()
   }
 
@@ -93,6 +96,7 @@ export default function FoodSearch() {
     setCustomFoods(updated)
     saveCustomFoods(updated)
     addEntry(manualFood, g)
+    showToast(`${name} eklendi`)
 
     setManualName(''); setManualCal(''); setManualCarbs('')
     setManualProtein(''); setManualFat(''); setManualGrams('')

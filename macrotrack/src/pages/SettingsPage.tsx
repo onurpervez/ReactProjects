@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../context/useAuth'
+import { useToast } from '../context/useToast'
 import { calculateTDEE } from '../utils/calculateTDEE'
 import { ui } from '../styles'
 import type { AppSettings } from '../types'
@@ -9,6 +10,7 @@ import MobileNav from '../components/MobileNav'
 
 export default function SettingsPage() {
   const { profile, settings, saveSettings } = useAuth()
+  const { showToast } = useToast()
 
   const tdee = profile ? calculateTDEE(profile) : 2000
 
@@ -50,6 +52,7 @@ export default function SettingsPage() {
     saveSettings({ ...settings, dailyGoalOverride: num })
     setGoalConfirmed(true)
     setError('')
+    showToast('Kalori hedefi güncellendi')
   }
 
   function handleSave() {
@@ -62,6 +65,7 @@ export default function SettingsPage() {
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
     setError('')
+    showToast('Ayarlar kaydedildi')
   }
 
   return (

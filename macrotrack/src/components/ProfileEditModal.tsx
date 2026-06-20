@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../context/useAuth'
+import { useToast } from '../context/useToast'
 import type { UserProfile } from '../types'
 import { ui } from '../styles'
 
@@ -17,6 +18,7 @@ interface Props {
 
 export default function ProfileEditModal({ onClose }: Props) {
   const { profile, saveProfile } = useAuth()
+  const { showToast } = useToast()
 
   const [height,   setHeight]   = useState(String(profile?.height   ?? ''))
   const [weight,   setWeight]   = useState(String(profile?.weight   ?? ''))
@@ -43,7 +45,7 @@ export default function ProfileEditModal({ onClose }: Props) {
       gender,
       activity,
     })
-
+    showToast('Profil güncellendi')
     onClose()
   }
 

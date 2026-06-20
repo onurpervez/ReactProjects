@@ -1,2 +1,8 @@
 @import "tailwindcss";
+
+@keyframes toastIn {
+  from { transform: translateX(calc(100% + 24px)); opacity: 0; }
+  to   { transform: translateX(0);                 opacity: 1; }
+}
+
 @variant dark (&:where(.dark, .dark *))

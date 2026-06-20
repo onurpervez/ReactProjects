@@ -8,6 +8,8 @@ import FoodSearch     from '../components/FoodSearch'
 import MealLog        from '../components/MealLog'
 import ProjectionCard from '../components/ProjectionCard'
 import StatsCard      from '../components/StatsCard'
+import StreakCard      from '../components/StreakCard'
+import WaterTracker   from '../components/WaterTracker'
 
 export default function DashboardPage() {
   return (
@@ -18,6 +20,10 @@ export default function DashboardPage() {
         <main className={ui.content}>
           <ProgressBar />
           <MacroSummary />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <StreakCard />
+            <WaterTracker />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <ProjectionCard />
             <StatsCard />
