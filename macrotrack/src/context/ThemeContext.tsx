@@ -6,7 +6,6 @@ interface ThemeContextType {
   toggleTheme: () => void
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const ThemeContext = createContext<ThemeContextType | null>(null)
 
 export function ThemeProvider({ children }: { children: ReactNode }) {

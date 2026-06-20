@@ -34,7 +34,7 @@ export default function Navbar() {
           </div>
           <button
             onClick={toggleTheme}
-            className="w-8 h-8 rounded-full bg-gray-100 dark:bg-zinc-700 text-gray-600 dark:text-zinc-300 text-sm flex items-center justify-center hover:bg-gray-200 dark:hover:bg-zinc-600 transition-colors"
+            className="w-8 h-8 rounded-full bg-stone-200 dark:bg-zinc-700 text-gray-600 dark:text-zinc-300 text-sm flex items-center justify-center hover:bg-stone-300 dark:hover:bg-zinc-600 transition-colors"
             title={isDark ? 'Açık mod' : 'Karanlık mod'}
           >
             {isDark ? '☀️' : '🌙'}

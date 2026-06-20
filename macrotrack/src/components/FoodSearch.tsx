@@ -214,13 +214,13 @@ export default function FoodSearch() {
                 ) : (
                   filtered.map(food => (
                     <div key={food.id}
-                      className="flex justify-between items-center px-3 py-2 rounded-lg text-sm transition-colors hover:bg-gray-50 dark:hover:bg-zinc-800">
+                      className="flex justify-between items-center px-3 py-2 rounded-lg text-sm transition-colors hover:bg-stone-100 dark:hover:bg-zinc-800">
                       <button
                         onClick={() => handleSelect(food)}
                         className="flex items-center gap-2 text-left flex-1 min-w-0"
                       >
                         <span className="text-black dark:text-white truncate">{food.name}</span>
-                        <span className="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-zinc-700 text-gray-500 dark:text-zinc-400 rounded flex-shrink-0">
+                        <span className="text-xs px-1.5 py-0.5 bg-stone-200 dark:bg-zinc-700 text-gray-500 dark:text-zinc-400 rounded flex-shrink-0">
                           {food.category}
                         </span>
                       </button>
@@ -240,7 +240,7 @@ export default function FoodSearch() {
             )}
 
             {selected && (
-              <div className="flex flex-col gap-3 pt-1 border-t border-gray-100 dark:border-zinc-800">
+              <div className="flex flex-col gap-3 pt-1 border-t border-stone-200 dark:border-zinc-800">
                 <div className="flex gap-2 flex-wrap">
                   {GRAM_PRESETS.map(g => (
                     <button key={g} onClick={() => setGrams(String(g))}

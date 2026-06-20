@@ -5,7 +5,10 @@
       "Bash(npx playwright *)",
       "Bash(npm root *)",
       "Bash(npm init *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(node shot3.cjs)",
+      "Bash(npx tsc *)",
+      "Bash(npx eslint *)"
     ]
   }
 }

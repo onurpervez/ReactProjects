@@ -42,7 +42,7 @@ export default function MacroSummary() {
             <p className="text-lg font-medium text-black dark:text-white mb-2">
               {m.current}<span className="text-xs text-gray-400 dark:text-zinc-500 font-normal">g</span>
             </p>
-            <div className="h-1.5 bg-gray-100 dark:bg-zinc-700 rounded-full overflow-hidden">
+            <div className="h-1.5 bg-stone-200 dark:bg-zinc-700 rounded-full overflow-hidden">
               <div className={`h-full rounded-full transition-all duration-300 ${barColor}`} style={{ width: `${pct}%` }} />
             </div>
             <p className={`${ui.muted} mt-1`}>%{pct}</p>

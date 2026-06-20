@@ -38,7 +38,7 @@ export default function StatsCard() {
         ))}
       </div>
       {mealTypeLabels && (
-        <p className={`${ui.muted} pt-2 border-t border-gray-100 dark:border-zinc-800`}>
+        <p className={`${ui.muted} pt-2 border-t border-stone-200 dark:border-zinc-800`}>
           Öğünler: {mealTypeLabels}
         </p>
       )}

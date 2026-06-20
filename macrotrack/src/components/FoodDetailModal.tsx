@@ -58,7 +58,7 @@ export default function FoodDetailModal({ food, onClose, onSelect }: Props) {
             </Pie>
             <Tooltip
                 contentStyle={{ fontSize: 12, borderRadius: 8, border: '0.5px solid #d1d5db', background: '#f3f4f6' }}
-                formatter={(val: any) => [`${val} kcal`]}
+                formatter={(val: number | string) => [`${val} kcal`]}
                 />
           </PieChart>
         </ResponsiveContainer>

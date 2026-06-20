@@ -49,7 +49,7 @@ export default function ProjectionCard() {
           </span>
         </div>
       </div>
-      <p className={`${ui.muted} pt-1 border-t border-gray-100 dark:border-zinc-800`}>{message}</p>
+      <p className={`${ui.muted} pt-1 border-t border-stone-200 dark:border-zinc-800`}>{message}</p>
     </div>
   )
 }

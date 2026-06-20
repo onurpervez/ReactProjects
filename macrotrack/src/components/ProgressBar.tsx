@@ -47,7 +47,7 @@ export default function ProgressBar() {
               cx="50" cy="50" r={R}
               fill="none"
               strokeWidth="9"
-              className="stroke-gray-100 dark:stroke-zinc-700"
+              className="stroke-stone-200 dark:stroke-zinc-700"
             />
             <circle
               cx="50" cy="50" r={R}
@@ -80,7 +80,7 @@ export default function ProgressBar() {
             </div>
           </div>
 
-          <div className="h-2.5 bg-gray-100 dark:bg-zinc-700 rounded-full overflow-hidden">
+          <div className="h-2.5 bg-stone-200 dark:bg-zinc-700 rounded-full overflow-hidden">
             <div
               className={`h-full rounded-full transition-all duration-500 ${barClass}`}
               style={{ width: `${percentage}%` }}
